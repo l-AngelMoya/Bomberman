@@ -8,10 +8,20 @@ public class MapDestroyer : MonoBehaviour
     public Tile wallTile;
     public Tile destructibleTile;
 
+    public GameObject explosionPrefab;
+
     public void Explode(Vector2 worldPos)
     {
         Vector3Int originCell= tilemap.WorldToCell(worldPos);
         ExplodeCell(originCell);
+        ExplodeCell(originCell + new Vector3Int(1, 0, 0));
+        //ExplodeCell(originCell + new Vector3Int(2, 0, 0));
+        ExplodeCell(originCell + new Vector3Int(0, 1, 0));
+        //ExplodeCell(originCell + new Vector3Int(0, 2, 0));
+        ExplodeCell(originCell + new Vector3Int(-1, 0, 0));
+        //ExplodeCell(originCell + new Vector3Int(-2, 0, 0));
+        ExplodeCell(originCell + new Vector3Int(0, -1, 0));
+        //ExplodeCell(originCell + new Vector3Int(0, -2, 0));
     }
 
     void ExplodeCell(Vector3Int cell)
@@ -25,6 +35,10 @@ public class MapDestroyer : MonoBehaviour
         {
             tilemap.SetTile(cell, null);
         }
+
         //create a explosion
+        Vector3 pos= tilemap.GetCellCenterWorld(cell);
+        Instantiate(explosionPrefab, pos, Quaternion.identity); 
+        
     }
 }
