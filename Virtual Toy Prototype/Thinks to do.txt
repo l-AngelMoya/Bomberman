@@ -5,3 +5,4 @@ Thinks to do
 4) Create a script for put the bomb in a scene
 5) create script to explode a bomb 
 6) Make the boxes destroy
+7) set up toy mechanics

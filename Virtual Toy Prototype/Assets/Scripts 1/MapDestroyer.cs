@@ -12,24 +12,39 @@ public class MapDestroyer : MonoBehaviour
 
     public void Explode(Vector2 worldPos)
     {
+        print(worldPos);
         Vector3Int originCell= tilemap.WorldToCell(worldPos);
-        ExplodeCell(originCell);
-        ExplodeCell(originCell + new Vector3Int(1, 0, 0));
-        //ExplodeCell(originCell + new Vector3Int(2, 0, 0));
-        ExplodeCell(originCell + new Vector3Int(0, 1, 0));
-        //ExplodeCell(originCell + new Vector3Int(0, 2, 0));
-        ExplodeCell(originCell + new Vector3Int(-1, 0, 0));
-        //ExplodeCell(originCell + new Vector3Int(-2, 0, 0));
-        ExplodeCell(originCell + new Vector3Int(0, -1, 0));
-        //ExplodeCell(originCell + new Vector3Int(0, -2, 0));
-    }
 
-    void ExplodeCell(Vector3Int cell)
+        ExplodeCell(originCell);
+        if(ExplodeCell(originCell + new Vector3Int(1, 0, 0)))
+        {
+            ExplodeCell(originCell + new Vector3Int(2, 0, 0));
+
+        }
+        if (ExplodeCell(originCell + new Vector3Int(0, 1, 0)))
+        {
+            ExplodeCell(originCell + new Vector3Int(0, 2, 0));
+
+        }
+        if (ExplodeCell(originCell + new Vector3Int(-1, 0, 0)))
+        {
+            ExplodeCell(originCell + new Vector3Int(-2, 0, 0));
+
+        }
+        if(ExplodeCell(originCell + new Vector3Int(0, -1, 0)))
+        {
+            ExplodeCell(originCell + new Vector3Int(0, -2, 0));
+        }
+    
+    }
+        
+
+    bool ExplodeCell(Vector3Int cell)
     {
         TileBase tile= tilemap.GetTile<Tile>(cell);
         if (tile == wallTile)
         {
-            return;
+            return false;
         }
         if (tile==destructibleTile)//Remove the tile
         {
@@ -38,7 +53,7 @@ public class MapDestroyer : MonoBehaviour
 
         //create a explosion
         Vector3 pos= tilemap.GetCellCenterWorld(cell);
-        Instantiate(explosionPrefab, pos, Quaternion.identity); 
-        
+        Instantiate(explosionPrefab, pos, Quaternion.identity);
+        return true;
     }
 }
