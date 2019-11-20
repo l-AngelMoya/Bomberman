@@ -20,6 +20,8 @@ public class Bomb : MonoBehaviour
         {
             FindObjectOfType<MapDestroyer>().Explode(transform.position);
             Destroy(gameObject);
+            SoundScript.playSound("explode");
+
         }
     }
 }

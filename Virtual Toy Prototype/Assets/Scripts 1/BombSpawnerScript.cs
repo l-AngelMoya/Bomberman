@@ -13,6 +13,7 @@ public class BombSpawnerScript : MonoBehaviour
     public Tile rock;
     public Tile border;
     public Tile Box;
+    public int count=1;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,6 @@ public class BombSpawnerScript : MonoBehaviour
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Return the position of the camera.
             Vector3Int cell = tilemapGame.WorldToCell(worldPosition); //Transform the position in a celd //Int because the cell always are int.
             Vector3 cellCenterPosition = tilemapGame.GetCellCenterWorld(cell);
-            print(cellCenterPosition);
             Vector3Int originCell = tilemapGame.WorldToCell(cellCenterPosition);
             TileBase tileGame = tilemapGame.GetTile<Tile>(cell);
             TileBase tileBack = tilemapBackGround.GetTile<Tile>(cell);
@@ -40,7 +40,11 @@ public class BombSpawnerScript : MonoBehaviour
             }
             else
             {
-                Instantiate(bombPrefab, cellCenterPosition, Quaternion.identity);
+                //if (count == 1)
+                //{
+                    Instantiate(bombPrefab, cellCenterPosition, Quaternion.identity);
+                    //count = Time.deltaTim;
+               // }
 
             }
 

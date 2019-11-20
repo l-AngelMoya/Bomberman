@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+
 public class MapDestroyer : MonoBehaviour
 {
     public Tilemap tilemap;
     public Tile wallTile;
     public Tile destructibleTile;
+    public Text time;
+    public Text score;
+    public static int scoreInt;
 
     public GameObject explosionPrefab;
 
+    public void Start()
+    {
+        StartCoroutine(reloadTimer(30));
+    }
+
+  
     public void Explode(Vector2 worldPos)
     {
-        print(worldPos);
         Vector3Int originCell= tilemap.WorldToCell(worldPos);
 
         ExplodeCell(originCell);
@@ -37,7 +47,20 @@ public class MapDestroyer : MonoBehaviour
         }
     
     }
-        
+
+
+    IEnumerator reloadTimer(float reloadTimeInSeconds)
+    {
+        float counter = reloadTimeInSeconds;
+        while (counter > 0)
+        {
+            counter -=  Time.deltaTime;
+            time.text = Mathf.RoundToInt(counter).ToString();
+            yield return null;
+        }
+        //UnityEngine.SceneManagement.SceneManager.LoadScene("Scores");
+
+    }
 
     bool ExplodeCell(Vector3Int cell)
     {
@@ -49,6 +72,10 @@ public class MapDestroyer : MonoBehaviour
         if (tile==destructibleTile)//Remove the tile
         {
             tilemap.SetTile(cell, null);
+            scoreInt += 1;
+           // GameController.score2 = scoreInt;
+            score.text = scoreInt.ToString();
+
         }
 
         //create a explosion
